@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="signOut">
         <router-link v-if="loggedIn" to="/Login">
             <span v-on:click="signOut">Sign Out</span>
         </router-link>
@@ -39,5 +39,13 @@ export default {
 </script>
 
 <style scoped>
-
+    #signOut {
+        text-align: center;
+        
+    }
+    a{
+        font-weight: bold;
+        color: #2c3e50;
+        text-decoration: none;
+    }
 </style>

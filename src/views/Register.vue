@@ -1,16 +1,18 @@
 <template>
-    <div>
+    <div id="registerCard">
         <div v-if="error" class="error">{{error.message}}</div>
-        Register
-        <form @submit.prevent="clicked">
-            <div class="email">
-                <input type="email" v-model="email" placeholder="email">
-            </div>
-            <div class="password">
-                <input type="password" v-model="password" placeholder="password">
-            </div>
-            <button type="submit">Register</button>
-        </form>
+        <h4>Register</h4>
+        <div>
+            <form @submit.prevent="clicked">
+                <div class="email">
+                    <input type="email" v-model="email" placeholder="email">
+                </div>
+                <div class="password">
+                    <input type="password" v-model="password" placeholder="password">
+                </div>
+                <button type="submit">Register</button>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -42,6 +44,14 @@ import "firebase/auth";
 </script>
 
 <style scoped>
+    #registerCard {
+        background-color: #EDF1EA;
+        width: 50%;
+        padding: 10px;
+        margin: auto;
+        margin-top: 5%;
+        border: solid lightgray 2px;
+    }
     input {
         width: 200px;
         padding: 15px;
@@ -49,8 +59,16 @@ import "firebase/auth";
         font-size: 14px;
     }
     button {
-        width: 100px;
-        height: 20px;
-        font-size: 100%;
+        background-color: white;
+        border: solid lightgray 1px;
+        border-radius: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin: 5px;
+        font-size: 1.0rem;
+    }
+    button:hover {
+        color: white;
+        background-color: #3a7ca5;
     }
 </style>

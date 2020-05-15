@@ -1,129 +1,214 @@
 <template>
     <div>
-        <label>name</label>
-        <input type="text" v-model="name"/>
-        <label>type1</label>
-        <input type="text" v-model="type1"/>
-        <label>type2</label>
-        <input type="text" v-model="type2"/>
-        <label>type3</label>
-        <input type="text" v-model="type3"/>
-        <label>cals</label>
-        <input type="text" v-model="cals"/>
-        <label>video link</label>
-        <input type="text" v-model="link"/>
-        <label>1</label>
-        <input type="text" v-model="i1"/>
-        <label>2</label>
-        <input type="text" v-model="i2"/>
-        <label>3</label>
-        <input type="text" v-model="i3"/>
-        <label>4</label>
-        <input type="text" v-model="i4"/>
-        <label>5</label>
-        <input type="text" v-model="i5"/>
-        <label>6</label>
-        <input type="text" v-model="i6"/>
-        <label>7</label>
-        <input type="text" v-model="i7"/>
-        <label>8</label>
-        <input type="text" v-model="i8"/>
-        <label>9</label>
-        <input type="text" v-model="i9"/>
-        <label>10</label>
-        <input type="text" v-model="i10"/>
-        <label>11</label>
-        <input type="text" v-model="i11"/>
-        <label>12</label>
-        <input type="text" v-model="i12"/>
-        <button @click="submitRecipe()">Add</button>
         <div>
-            <ul>
-                <li v-for="entry in recipeList" v-bind:key="entry.name">
-                    {{entry}}
-                </li>
-            </ul>
+            <button @click="reset()">All</button>
+        
+            <button @click="sortByType1('Western')">Western</button>
+            <button @click="sortByType1('Caribbean')">Caribbean</button>
+            <button @click="sortByType1('Italian')">Italian</button>
+            <button @click="sortByType1('Chinese')">Chinese</button>
+            <button @click="sortByType1('Indian')">Indian</button>
+        
+            <button @click="sortByType2('Mains')">Mains</button>
+            <button @click="sortByType2('Sides')">Sides</button>
+            <button @click="sortByType2('Appetizers')">Appetizers</button>
+            <button @click="sortByType2('Desserts')">Desserts</button>
+            <button @click="sortByType2('Breakfast')">Breakfast</button>
+        
+            <button @click="sortByType3('No-Cook')">No-Cook</button>
+            <button @click="sortByType3('Baked')">Baked</button>
+            <button @click="sortByType3('Vegetarian')">Vegetarian</button>
+        </div>
+        <div>
+            <input type="text" v-model="search"/>
+            <button @click="lookOut()">Search</button>
+        </div> 
+        <div v-for="entry in recipeList" v-bind:key="entry.name">
+            <div id="recipeCards">
+                <h3 id="nameCard">{{entry.name}}</h3>
+                <h4>Calories: {{entry.caloriesPerServe}}</h4>
+                <h4>Categories: {{entry.type1}} - {{entry.type2}} - {{entry.type3}}</h4>
+                <iframe id="vid" v-bind:src="entry.videoLink" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <h4>Ingredients:</h4>
+                <div id="ingredList">
+                    <div  v-if="entry.ingredient1!==''">
+                        <p>{{entry.ingredient1}}</p>
+                        <button @click="submitIngred(entry.ingredient1)">Add To Ingredients</button>
+                        <button @click="submitItem(entry.ingredient1)">Add To Shopping List</button>
+                    </div>
+                    <div  v-if="entry.ingredient2!==''">
+                        <p>{{entry.ingredient2}}</p>
+                        <button @click="submitIngred(entry.ingredient2)">Add To Ingredients</button>
+                        <button @click="submitItem(entry.ingredient2)">Add To Shopping List</button>
+                    </div>
+                    <div  v-if="entry.ingredient3!==''">
+                        <p>{{entry.ingredient3}}</p>
+                        <button @click="submitIngred(entry.ingredient3)">Add To Ingredients</button>
+                        <button @click="submitItem(entry.ingredient3)">Add To Shopping List</button>
+                    </div>
+                    <div  v-if="entry.ingredient4!==''">
+                        <p>{{entry.ingredient4}}</p>
+                        <button @click="submitIngred(entry.ingredient4)">Add To Ingredients</button>
+                        <button @click="submitItem(entry.ingredient4)">Add To Shopping List</button>
+                    </div>
+                    <div  v-if="entry.ingredient5!==''">
+                        <p>{{entry.ingredient5}}</p>
+                        <button @click="submitIngred(entry.ingredient5)">Add To Ingredients</button>
+                        <button @click="submitItem(entry.ingredient5)">Add To Shopping List</button>
+                    </div>
+                    <div  v-if="entry.ingredient6!==''">
+                        <p>{{entry.ingredient6}}</p>
+                        <button @click="submitIngred(entry.ingredient6)">Add To Ingredients</button>
+                        <button @click="submitItem(entry.ingredient6)">Add To Shopping List</button>
+                    </div>
+                    <div  v-if="entry.ingredient7!==''">
+                        <p>{{entry.ingredient7}}</p>
+                        <button @click="submitIngred(entry.ingredient7)">Add To Ingredients</button>
+                        <button @click="submitItem(entry.ingredient7)">Add To Shopping List</button>
+                    </div>
+                    <div  v-if="entry.ingredient8!==''">
+                        <p>{{entry.ingredient8}}</p>
+                        <button @click="submitIngred(entry.ingredient8)">Add To Ingredients</button>
+                        <button @click="submitItem(entry.ingredient8)">Add To Shopping List</button>
+                    </div>
+                    <div  v-if="entry.ingredient9!==''">
+                        <p>{{entry.ingredient9}}</p>
+                        <button @click="submitIngred(entry.ingredient9)">Add To Ingredients</button>
+                        <button @click="submitItem(entry.ingredient9)">Add To Shopping List</button>
+                    </div>
+                    <div  v-if="entry.ingredient10!==''">
+                        <p>{{entry.ingredient10}}</p>
+                        <button @click="submitIngred(entry.ingredient10)">Add To Ingredients</button>
+                        <button @click="submitItem(entry.ingredient10)">Add To Shopping List</button>
+                    </div>
+                    <div  v-if="entry.ingredient11!==''">
+                        <p>{{entry.ingredient11}}</p>
+                        <button @click="submitIngred(entry.ingredient11)">Add To Ingredients</button>
+                        <button @click="submitItem(entry.ingredient11)">Add To Shopping List</button>
+                    </div>
+                    <div  v-if="entry.ingredient12!==''">
+                        <p>{{entry.ingredient12}}</p>
+                        <button @click="submitIngred(entry.ingredient12)">Add To Ingredients</button>
+                        <button @click="submitItem(entry.ingredient12)">Add To Shopping List</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import * as firebase from 'firebase/app'
+import 'firebase/auth'
+import {shopRef} from '../main'
+import {ingredRef} from '../main'
 import {recipeRef} from '../main'
 export default {
     data() {
         return {
-            name: '',
-            type1: '',
-            type2: '',
-            type3: '',
-            cals: '',
-            link: '',
-            i1: '',
-            i2: '',
-            i3: '',
-            i4: '',
-            i5: '',
-            i6: '',
-            i7: '',
-            i8: '',
-            i9: '',
-            i10: '',
-            i11: '',
-            i12: '',
+            search: '',
             recipeList: []
-        }
-    },
-    methods: {
-        async submitRecipe() {
-            const recipe = {
-                name: this.name,
-                type1: this.type1,
-                type2: this.type2,
-                type3: this.type3,
-                caloriesPerServe: this.cals,
-                videoLink: this.link,
-                ingredient1: this.i1,
-                ingredient2: this.i2,
-                ingredient3: this.i3,
-                ingredient4: this.i4,
-                ingredient5: this.i5,
-                ingredient6: this.i6,
-                ingredient7: this.i7,
-                ingredient8: this.i8,
-                ingredient9: this.i9,
-                ingredient10: this.i10,
-                ingredient11: this.i11,
-                ingredient12: this.i12
-            }
-            this.name = ''
-            this.type1 = ''
-            this.type2 = ''
-            this.type3 = ''
-            this.cals = ''
-            this.link = ''
-            this.i1 = ''
-            this.i2 = ''
-            this.i3 = ''
-            this.i4 = ''
-            this.i5 = ''
-            this.i6 = ''
-            this.i7 = ''
-            this.i8 = ''
-            this.i9 = ''
-            this.i10 = ''
-            this.i11 = ''
-            this.i12 = ''
-            recipeRef.push(recipe)
         }
     },
     created() {
         recipeRef.on('value',(snapshot)=>{
             this.recipeList = snapshot.toJSON();
         })
+    },
+    methods: {
+        async sortByType1(content) {
+            recipeRef.orderByChild('type1').equalTo(content).on('value',(snapshot)=>{
+            this.recipeList = snapshot.toJSON();
+            })
+        },
+        async sortByType2(content) {
+            recipeRef.orderByChild('type2').equalTo(content).on('value',(snapshot)=>{
+                this.recipeList = snapshot.toJSON();
+            })
+        },
+        async sortByType3(content) {
+            recipeRef.orderByChild('type3').equalTo(content).on('value',(snapshot)=>{
+                this.recipeList = snapshot.toJSON();
+            })
+        },
+        async reset() {
+            recipeRef.on('value',(snapshot)=>{
+                this.recipeList = snapshot.toJSON();
+            })
+        },
+        async lookOut() {
+            recipeRef.orderByChild('name').startAt(this.search).endAt(this.search+'\uf8ff').on('value',(snapshot)=>{
+                this.recipeList = snapshot.toJSON();
+            })
+        },
+        async submitIngred(name) {
+            const ingred = {
+                ingredName: name,
+                user: firebase.auth().currentUser.uid,
+                cheap_id: name + firebase.auth().currentUser.uid
+            }
+            await ingredRef.orderByChild('cheap_id').equalTo(ingred.cheap_id).once("value").then(function(snapshot) {
+                snapshot.forEach(function(child){
+                    child.ref.remove()
+                })
+            })
+            ingredRef.push(ingred)
+            alert("Added to Ingredient List!")
+        },
+        async submitItem(name) {
+            const item = {
+                itemName: name,
+                user: firebase.auth().currentUser.uid,
+                cheap_id: name + firebase.auth().currentUser.uid
+            }
+            await shopRef.orderByChild('cheap_id').equalTo(item.cheap_id).once("value").then(function(snapshot) {
+                snapshot.forEach(function(child){
+                    child.ref.remove()
+                })
+            })
+            await shopRef.push(item)
+            alert("Added To Shopping List!")
+        }
     }
 }
 </script>
 
 <style scoped>
-
+    #recipeCards {
+        background-color: #EDF1EA;
+        width: 50%;
+        display: inline-block;
+        padding: 10px;
+        margin: 10px;
+        border: solid lightgray 2px;
+    }
+    button {
+        background-color: white;
+        border: solid transparent 1px;
+        border-radius: 10%;
+        padding: 5px;
+        margin: 5px;
+        font-size: 1.0rem;
+    }
+    button:hover {
+        color: white;
+        background-color: #3a7ca5;
+    }
+    #vid {
+        border: solid lightgray 3px;
+        width: 70%;
+        height: 35vh;
+    }
+    #nameCard {
+        background-color: lightgray;
+    }
+    input {
+        width: 40%;
+        border: 1px solid transparent;
+        border-radius: 20px;
+        padding-left: 1%;
+    }
+    p {
+        display: inline-block;
+    }
 </style>

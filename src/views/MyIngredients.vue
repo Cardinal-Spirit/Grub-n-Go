@@ -1,15 +1,12 @@
 <template>
     <div>
-        <label>Ingredient Name:</label>
         <input type="text" v-model="name"/>
-        <button @click="submitIngred()">Add</button>
+        <button @click="submitIngred()">Add to Owned Ingredients</button>
         <div>
-            <ul>
-                <li v-for="entry in ingredList" v-bind:key="entry.cheap_id">
-                    {{entry.ingredName}}
-                    <button @click="deleteIngred(entry.cheap_id)">Delete</button>
-                </li>
-            </ul>
+            <div v-for="entry in ingredList" v-bind:key="entry.cheap_id" id="ingredCard">
+                <h4>{{entry.ingredName}}</h4>
+                <button @click="deleteIngred(entry.cheap_id)" id="delete">Remove</button>
+            </div>
         </div>
     </div>
 </template>
@@ -33,7 +30,11 @@ export default {
                 cheap_id: this.name + firebase.auth().currentUser.uid
             }
             this.name = ''
-            console.log(ingred)
+            await ingredRef.orderByChild('cheap_id').equalTo(ingred.cheap_id).once("value").then(function(snapshot) {
+                snapshot.forEach(function(child){
+                    child.ref.remove()
+                })
+            })
             ingredRef.push(ingred)
         },
         async deleteIngred(key){
@@ -53,5 +54,34 @@ export default {
 </script>
 
 <style scoped>
-
+    #ingredCard {
+        background-color: #EDF1EA;
+        width: 20%;
+        display: inline-block;
+        padding: 10px;
+        margin: 10px;
+        border: solid lightgray 2px;
+    }
+    button {
+        background-color: white;
+        border: solid transparent 1px;
+        border-radius: 10px;
+        padding: 5px;
+        margin: 5px;
+        font-size: 1.0rem;
+    }
+    button:hover {
+        color: white;
+        background-color: #3a7ca5;
+    }
+    input {
+        width: 40%;
+        border: 1px solid transparent;
+        border-radius: 20px;
+        padding-left: 1%;
+    }
+    #delete:hover {
+        color: white;
+        background-color: #F4532F;
+    }
 </style>

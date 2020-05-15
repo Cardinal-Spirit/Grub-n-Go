@@ -1,15 +1,17 @@
 <template>
-    <div>
-        Login
-        <form @submit.prevent="clicked">
-            <div class="login">
-                <input type="email" v-model="email" placeholder="email">
-            </div>
-            <div>
-                <input type="password" v-model="password" placeholder="password">
-            </div>
-            <button type="submit">Login</button>
-        </form>
+    <div id="loginCard">
+        <h4>Login</h4>
+        <div>
+            <form @submit.prevent="clicked">
+                <div class="login">
+                    <input type="email" v-model="email" placeholder="email">
+                </div>
+                <div>
+                    <input type="password" v-model="password" placeholder="password">
+                </div>
+                <button type="submit">Login</button>
+            </form>
+        </div>
         <div class="error" v-if="error">{{error.message}}</div>
         <span>Don't have an account? Click here to <router-link to="/Register">Register</router-link></span>
     </div>
@@ -43,6 +45,19 @@ export default {
 </script>
 
 <style scoped>
+    #loginCard {
+        background-color: #EDF1EA;
+        
+        width: 50%;
+        padding: 10px;
+        margin: auto;
+        margin-top: 5%;
+        border: solid lightgray 2px;
+    }
+    form {
+        left: auto;
+        right: auto;
+    }
     input {
         width: 200px;
         padding: 15px;
@@ -50,8 +65,16 @@ export default {
         font-size: 14px;
     }
     button {
-        width: 100px;
-        height: 20px;
-        font-size: 100%;
+        background-color: white;
+        border: solid lightgray 1px;
+        border-radius: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin: 5px;
+        font-size: 1.0rem;
+    }
+    button:hover {
+        color: white;
+        background-color: #3a7ca5;
     }
 </style>

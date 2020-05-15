@@ -1,15 +1,13 @@
 <template>
     <div>
-        <label>Ingredient To Add:</label>
         <input type="text" v-model="name"/>
-        <button @click="submitItem()">Add</button>
+        <button @click="submitItem()">Add to Shopping List</button>
         <div>
-            <ul>
-                <li v-for="entry in itemList" v-bind:key="entry.cheap_id">
-                    {{entry.itemName}}
-                    <button @click="deleteItem(entry.cheap_id)">Delete</button>
-                </li>
-            </ul>
+            <div v-for="entry in itemList" v-bind:key="entry.cheap_id" id="shopCard">
+                <h4>{{entry.itemName}}</h4>
+                <button @click="submitIngred(entry, entry.cheap_id)">Add To Ingredients</button>
+                <button @click="deleteItem(entry.cheap_id)" id="delete">Remove</button>
+            </div>
         </div>
     </div>
 </template>
@@ -18,7 +16,7 @@
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import {shopRef} from '../main'
-//import {ingredRef} from '../main'
+import {ingredRef} from '../main'
 export default {
     data() {
         return {
@@ -34,10 +32,32 @@ export default {
                 cheap_id: this.name + firebase.auth().currentUser.uid
             }
             this.name = ''
-            console.log(item)
+            await shopRef.orderByChild('cheap_id').equalTo(item.cheap_id).once("value").then(function(snapshot) {
+                snapshot.forEach(function(child){
+                    child.ref.remove()
+                })
+            })
             shopRef.push(item)
         },
-        async deleteItem(key){
+        async submitIngred(ingred, key) {
+            const toAdd = {
+                ingredName: ingred.itemName,
+                user: ingred.user,
+                cheap_id: ingred.cheap_id
+            }
+            await ingredRef.orderByChild('cheap_id').equalTo(key).once("value").then(function(snapshot) {
+                snapshot.forEach(function(child){
+                    child.ref.remove()
+                })
+            })
+            ingredRef.push(toAdd)
+            shopRef.orderByChild('cheap_id').equalTo(key).once("value").then(function(snapshot) {
+                snapshot.forEach(function(child){
+                    child.ref.remove()
+                })
+            })
+        },
+        async deleteItem(key) {
             shopRef.orderByChild('cheap_id').equalTo(key).once("value").then(function(snapshot) {
                 snapshot.forEach(function(child){
                     child.ref.remove()
@@ -54,5 +74,34 @@ export default {
 </script>
 
 <style scoped>
-
+    #shopCard {
+        background-color: #EDF1EA;
+        width: 20%;
+        display: inline-block;
+        padding: 10px;
+        margin: 10px;
+        border: solid lightgray 2px;
+    }
+    button {
+        background-color: white;
+        border: solid transparent 1px;
+        border-radius: 10px;
+        padding: 5px;
+        margin: 5px;
+        font-size: 1.0rem;
+    }
+    button:hover {
+        color: white;
+        background-color: #3a7ca5;
+    }
+    input {
+        width: 40%;
+        border: 1px solid transparent;
+        border-radius: 20px;
+        padding-left: 1%;
+    }
+    #delete:hover {
+        color: white;
+        background-color: #F4532F;
+    }
 </style>
